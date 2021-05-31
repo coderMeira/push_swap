@@ -3,20 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmeira <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 19:37:41 by fmeira            #+#    #+#             */
-/*   Updated: 2021/05/29 19:54:13 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/05/31 22:29:08 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft/libft.h"
 
-void terminate()
+void	index_stack(t_stack *stack)
 {
-    ft_putendl_fd("Error", 2);
-    exit(1);
+	ssize_t			i;
+	ssize_t			j;
+	t_stack_elem	*currentIndex;
+	t_stack_elem	*currentJ;
+
+	i = 0;
+	currentIndex = stack->head;
+	currentJ = currentIndex;
+    if (stack)
+    {
+        while (i < stack->size)
+        {
+            j = 0;
+            while (j < stack->size)
+            {
+                if (currentJ->number < currentIndex->number)
+                    currentIndex->index++;
+                currentJ = currentJ->next;
+                j++;
+            }
+            currentIndex = currentIndex->next;
+            currentJ = stack->head;
+            i++;
+        }
+    }
 }
 
 t_stack_elem    *create_elem(int number)
@@ -27,7 +50,7 @@ t_stack_elem    *create_elem(int number)
     if (!new)
         terminate();
     new->number = number;
-    new->index = -1;
+    new->index = 0;
     new->keep_in_stack = false;
     new->previous = NULL;
     new->next = NULL;
@@ -65,10 +88,12 @@ t_bool  has_duplicates(t_stack *stack)
 
     i = 0;
     current_i = stack->head;
-    while (i < stack->size)
+    if (stack)
     {
-        current_j = current_i->next;
-	while (current_j != current_i)
+        while (i < stack->size)
+        {
+            current_j = current_i->next;
+        while (current_j != current_i)
         {
             if (current_j->number == current_i->number)
                 return (true);
@@ -76,6 +101,7 @@ t_bool  has_duplicates(t_stack *stack)
         }
         current_i = current_i->next;
         i++;
+        }
     }
     return (false);
 }
