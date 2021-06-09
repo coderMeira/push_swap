@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 19:37:41 by fmeira            #+#    #+#             */
-/*   Updated: 2021/05/31 22:29:08 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/02 18:36:40 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,19 +123,27 @@ t_bool  not_int(char* s)
     return (false);
 }
 
+t_stack			*init_stack(void)
+{
+	t_stack *stack;
+
+	stack = (t_stack *)malloc(sizeof(t_stack));
+    if (!stack)
+        terminate();
+	stack->head = NULL;
+	stack->size = 0;
+	stack->pairs = 0;
+	stack->markup_head = NULL;
+	return (stack);
+}
+
 t_stack *parse(int ac, char** av)
 {
     int     i;
     t_stack *stack;
 
     i = 1;
-    stack = (t_stack *)malloc(sizeof(t_stack));
-    if (!stack)
-        terminate();
-    stack->head = NULL;
-    stack->size = 0;
-    stack->pairs = 0;
-    stack->markup_head = NULL;
+    stack = init_stack();
     while (i < ac)
     {
         if (not_int(av[i]))
