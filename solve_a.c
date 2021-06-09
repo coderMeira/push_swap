@@ -28,9 +28,9 @@ static t_bool	needs_sa(t_stack *a_stack)
 	if (a_stack && a_stack->size >= 2)
 	{
 		sx(a_stack, NULL, NULL);
-		current_pairs = markup(a_stack, a_stack->markup_head);
+		current_pairs = markup_stack(a_stack, a_stack->markup_head);
 		sx(a_stack, NULL, NULL);
-		markup(a_stack, a_stack->markup_head);
+		markup_stack(a_stack, a_stack->markup_head);
 		if (current_pairs > a_stack->pairs)
 			return (true);
 	}

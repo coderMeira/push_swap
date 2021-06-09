@@ -1,7 +1,7 @@
 
 #include "push_swap.h"
 
-size_t	markup(t_stack *stack, t_stack_elem *markup_head)
+size_t	markup_stack(t_stack *stack, t_stack_elem *markup_head)
 {
 	ssize_t			index;
 	size_t			pairs;
@@ -54,5 +54,5 @@ void			markup(t_stack	*stack)
 			current = current->next;
 		}
 	}
-	markup(stack, stack->markup_head);
+	markup_stack(stack, stack->markup_head);
 }

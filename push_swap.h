@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/09 01:56:39 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/09 17:31:36 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ t_stack 		*parse(int ac, char** av);
 void			index_stack(t_stack *stack);
 void			markup(t_stack	*stack);
 size_t			markup_stack(t_stack *stack, t_stack_elem *markup_head);
+t_command_list	*init_command_list(void);
 t_command_list	*solve(t_stack	*stack);
 t_command		*create_command(const char *name);
 void			add_command(t_command_list *list, t_command *command);
 void 			sx(t_stack *stack, char *arg, t_command_list *list);
-static void 	swap(t_stack_elem *first, t_stack_elem *second, t_stack *stack);
-
-
+void			px(t_stack	*to, t_stack *from, const char *name, t_command_list *list);
+void			push(t_stack *stack, t_stack_elem *popped);
+t_stack_elem 	*pop(t_stack *stack);
+t_command		*create_command(const char *name);
+void			add_command(t_command_list *list,
+					t_command *command);
 #endif

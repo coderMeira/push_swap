@@ -22,7 +22,7 @@ void sx(t_stack *stack, char *arg, t_command_list *list)
 	if (stack && stack->head && stack->size >= 2)
 		swap(stack->head, stack->head->next, stack);
 	if (arg && !list)
-		ft_putendl(arg);
+		ft_putstr_fd(arg, 1);
 	if (arg && list)
 		add_command(list, create_command(arg));
 }
