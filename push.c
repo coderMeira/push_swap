@@ -4,8 +4,8 @@
 void	px(t_stack	*to, t_stack *from, const char *name, t_command_list *list)
 {
 	push(to, pop(from));
-	// if (name && !list)
-	// 	ft_putendl_fd(name, 1);
+	 if (name && !list)
+	 	ft_putendl(name);
 	if (name && list)
 		add_command(list, create_command(name));
 }
@@ -34,7 +34,6 @@ void		push(t_stack *stack, t_stack_elem *popped)
 		stack->size++;
 	}
 }
-
 
 t_stack_elem *pop(t_stack *stack)
 {
