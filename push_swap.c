@@ -6,35 +6,43 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:31:55 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/09 19:03:15 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/23 19:14:05 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft/libft.h"
 
-void	ft_print_stack(t_stack *stack)
+void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 {
-	int	i;
+	int			 i;
 	t_stack_elem *current;
 
 	i = 0;
-	current = stack->head;
-	while (i++ < stack->size)
+	current = stack_a->head;
+	printf(" A\n");
+	while (i++ < stack_a->size)
 	{
-		printf("nbr: %d", current->number);
+		printf("|");
+		printf("%d", current->number);
 		if (current->number > 9)
-			printf(" | ");
+			printf("| ");
 		else
-			printf("  | ");
-		printf("index: %zd", current->index);
-		if (current->index > 9)
 			printf(" | ");
+		printf("\n");
+		current = current->next;
+	}
+	i = 0;
+	current = stack_b->head;
+	printf("\n B\n");
+	while (i++ < stack_b->size)
+	{
+		printf("|");
+		printf("%d", current->number);
+		if (current->number > 9)
+			printf("| ");
 		else
-			printf("  | ");
-		printf("keep in stack: %u", current->keep_in_stack);
-		if (current == stack->markup_head)
-			printf(" <---- markup | pairs: %zd", stack->pairs);
+			printf(" | ");
 		printf("\n");
 		current = current->next;
 	}
@@ -59,15 +67,7 @@ int main(int ac, char** av)
 		index_stack(stack_a = parse(ac, av));
 		markup(stack_a);
 		//commands = solve(stack_a);
-		printf("STACK A\n");
-		ft_print_stack(stack_a);
-		printf("STACK B\n");
-		ft_print_stack(b_stack);
 		solve(stack_a);
-		printf("\n----------------------after push: STACK A\n");
-		ft_print_stack(stack_a);
-		printf("after push: STACK B\n");
-		ft_print_stack(b_stack);
 	}
 	else
 		terminate();

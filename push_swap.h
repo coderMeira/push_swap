@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/09 17:31:36 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/23 19:10:27 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 
 typedef enum
 {
-	false,
-	true
-}	t_bool;
+	R,
+	RR
+}	t_direction;
 
 typedef struct 				s_stack_elem
 {
@@ -53,6 +53,17 @@ typedef struct			s_command_list
 	t_command			*head;
 }						t_command_list;
 
+typedef	struct 			s_shift_info
+{
+	t_stack_elem		*a_elem;
+	t_stack_elem		*b_elem;
+	int					a_direction;
+	int					b_direction;
+	size_t				size;
+	t_bool				is_set;
+}						t_shift_info;
+
+void			ft_print_stacks(t_stack *stack_a, t_stack *stack_b);
 int				ft_stoi(char *str);
 void			terminate();
 t_stack			*init_stack(void);
@@ -70,9 +81,19 @@ t_command		*create_command(const char *name);
 void			add_command(t_command_list *list, t_command *command);
 void 			sx(t_stack *stack, char *arg, t_command_list *list);
 void			px(t_stack	*to, t_stack *from, const char *name, t_command_list *list);
+void			rx(t_stack *stack, const char *name, t_command_list *list);
+void			rr(t_stack *a, t_stack *b, const char *name, t_command_list *list);
+void			rrx(t_stack *stack, const char *name, t_command_list *list);
+void			rrr(t_stack *a, t_stack *b, const char *name, t_command_list *list);
+void			solve_a(t_stack *a_stack, t_stack *b_stack, t_command_list *command_list);
 void			push(t_stack *stack, t_stack_elem *popped);
 t_stack_elem 	*pop(t_stack *stack);
 t_command		*create_command(const char *name);
 void			add_command(t_command_list *list,
 					t_command *command);
+void			solve_b(t_stack	*a_stack, t_stack *b_stack,
+				t_command_list	*command_list);
+void 			opt_direction(t_stack *a_stack, t_stack *b_stack,
+				t_shift_info *shift_info);
+
 #endif

@@ -1,5 +1,5 @@
 
-#include "push_swap.h";
+#include "push_swap.h"
 
 t_command_list	*solve(t_stack	*a_stack)
 {
@@ -10,7 +10,7 @@ t_command_list	*solve(t_stack	*a_stack)
 	b_stack = init_stack();
 
 	solve_a(a_stack, b_stack, command_list);
-	// solve_b(a_stack, b_stack, command_list);
+	solve_b(a_stack, b_stack, command_list);
 	// rearrange(a_stack, command_list);
 	// free_stack(b_stack);
 	return (command_list);
