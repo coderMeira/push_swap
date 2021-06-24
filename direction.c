@@ -24,19 +24,45 @@ t_stack_elem *find_a_elem(t_stack *a_stack, ssize_t	index)
 			current = current->next;
 	}
 	return (current);
-	// t_stack_elem	*current;
-	// size_t			i;
+}
 
-	// current = a_stack->head;
-	// i = 0;
-	// while (i < a_stack->size)
-	// {
-	// 	if (b_index == (current->index - 1))
-	// 		return (current);
-	// 	current = current->next;
-	// 	i++;
-	// }
-	// return (current);
+static void			estimate_direction(t_stack *stack,
+						int index,
+						size_t *rx_size,
+						size_t *rrx_size)
+{
+	t_stack_elem	*current;
+
+	if (stack && stack->head)
+	{
+		current = stack->head;
+		while (current->index != index)
+		{
+			(*rx_size)++;
+			current = current->next;
+		}
+		current = stack->head;
+		while (current->index != index)
+		{
+			(*rrx_size)++;
+			current = current->previous;
+		}
+	}
+}
+
+static void			set_direction(size_t size,
+						t_shift_info new_shift_info,
+						t_shift_info *shift_info)
+{
+	if (!shift_info->is_set || size < shift_info->size)
+	{
+		shift_info->a_elem = new_shift_info.a_elem;
+		shift_info->b_elem = new_shift_info.b_elem;
+		shift_info->a_direction = new_shift_info.a_direction;
+		shift_info->b_direction = new_shift_info.b_direction;
+		shift_info->size = size;
+		shift_info->is_set = true;
+	}
 }
 
 void optimal_direction(t_stack *a_stack, t_stack *b_stack,
@@ -53,6 +79,12 @@ void optimal_direction(t_stack *a_stack, t_stack *b_stack,
 	rrb_size = 0;
 	rra_size = 0;
 	current_shift_info.a_elem = find_a_elem(a_stack, b_elem->index);
+	current_shift_info.b_elem = b_elem;
+
+	estimate_direction(a_stack, current_shift_info.a_elem->index, &ra_size,
+					   &rra_size);
+	estimate_direction(b_stack, b_elem->index, &rb_size, &rrb_size);
+
 	printf("a_elem for %d = %d\n", b_elem->number, current_shift_info.a_elem->number);
 }
 
@@ -66,8 +98,8 @@ void opt_direction(t_stack *a_stack, t_stack *b_stack, t_shift_info *shift_info)
 		current = b_stack->head;
 		i = 0;
 		ft_print_stacks(a_stack, b_stack);
-		printf("a size %zu\n", a_stack->size);
-		printf("a head %d\n", a_stack->head->number);
+		//printf("a size %zu\n", a_stack->size);
+		//printf("a head %d\n", a_stack->head->number);
 		while (i < b_stack->size)
 		{
 			optimal_direction(a_stack, b_stack, current, shift_info);
