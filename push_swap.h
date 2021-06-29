@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/23 19:10:27 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/29 03:19:35 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,17 @@ typedef enum
 	RR
 }	t_direction;
 
+typedef struct 	s_sizes
+{
+	size_t		rx;
+	size_t		rrx;
+	t_bool		r_is_set;
+}				 t_sizes;
+
 typedef struct 				s_stack_elem
 {
 	int						number;
-	ssize_t					index;
+	int						index;
 	t_bool					keep_in_stack;
 	struct	s_stack_elem	*previous;
 	struct	s_stack_elem	*next;
@@ -57,6 +64,8 @@ typedef	struct 			s_shift_info
 {
 	t_stack_elem		*a_elem;
 	t_stack_elem		*b_elem;
+	t_sizes				*lowest_r_a;
+	t_sizes				*lowest_r_b;
 	int					a_direction;
 	int					b_direction;
 	size_t				size;
