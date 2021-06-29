@@ -10,7 +10,8 @@ static	t_sizes	*init_r_struct(void)
 
 	new->rx = 0;
 	new->rrx = 0;
-	new->r_is_set = false;
+	new->size = 0;
+	new->direction = R;
 
 	return (new);
 }
@@ -29,6 +30,7 @@ static t_shift_info	*init_shift_info(void)
 	shift_info->b_direction = R;
 	shift_info->size = 0;
 	shift_info->is_set = false;
+
 }
 
 void	solve_b(t_stack	*a_stack, t_stack *b_stack,
@@ -37,18 +39,11 @@ void	solve_b(t_stack	*a_stack, t_stack *b_stack,
 	t_shift_info	*shift_info;
 
 	shift_info = init_shift_info();
-	shift_info->lowest_r_a = init_r_struct();
-	shift_info->lowest_r_b = init_r_struct();
+
 
 	//while (b_stack->size)
 	//{
-	// 	shift_info->is_set = false;
-	//	shift_info->lowest_r_a->rx = 0;
-	//	shift_info->lowest_r_a->rrx= 0;
-	//	shift_info->lowest_r_a->r_is_set = false;
-	//	shift_info->lowest_r_b->rx = 0;
-	//	shift_info->lowest_r_b->rrx= 0;
-	//	shift_info->lowest_r_b->r_is_set = false;
+	//	shift_info->is_set = false;
 	opt_direction(a_stack, b_stack, shift_info);
 	//move_b(a_stack, b_stack, shift_info, command_list);
 	//px(a_stack, b_stack, "pa", command_list);

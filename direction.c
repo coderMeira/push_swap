@@ -6,79 +6,6 @@
 //actualizar shift_info com a soma minima de ra/rra + rb/rrb
 //(free sizes);
 
-
-t_stack_elem *find_a_elem(t_stack *a_stack, int	index)
-{
-	t_stack_elem	*current;
-
-	current = a_stack->markup_head;
-	if (index < current->index)
-	{
-		while (index < current->previous->index
-			&& current->index > current->previous->index)
-			current = current->previous;
-	}
-	else
-	{
-		while (index > current->index
-			&& current->index < current->next->index)
-			current = current->next;
-		if (index > current->index && current->index > current->next->index)
-			current = current->next;
-	}
-	return (current);
-}
-
-static void			calculate_size(t_stack *stack, int index, t_sizes *xsize)
-{
-	t_stack_elem	*current;
-
-	if (stack && stack->head)
-	{
-		current = stack->head;
-		printf("ola 1.9\n");
-		while (current->index != index)
-		{
-			printf("index = %d\n", index);
-			printf("ra = %ld\n", xsize->rx);
-			printf("current = %ld\n", current->index);
-			(xsize->rx)++;
-			current = current->next;
-		}
-		printf("ola 2\n");
-		current = stack->head;
-		while (current->index != index)
-		{
-			(xsize->rrx)++;
-			current = current->previous;
-		}
-	}
-}
-
-static void			estimate_direction(t_stack *stack, int index, t_sizes *xsize)
-{
-	t_sizes *current;
-
-	current->rx = 0;
-	current->rrx = 0;
-
-	printf("INDEX ----- %d\n", index);
-	printf("ola 1\n");
-	if (!(xsize->r_is_set))
-	{
-		printf("ola 1.8\n");
-		//calculate_size(stack, index, xsize);
-		xsize->r_is_set = true;
-	}
-	else
-		//calculate_size(stack, index, current);
-	printf("ola 3\n");
-	if ((current->rx < xsize->rx) && xsize->r_is_set == true)
-		xsize->rx = current->rx;
-	if ((current->rrx < xsize->rrx) && xsize->r_is_set == true)
-		xsize->rrx = current->rrx;
-}
-
 static void			set_direction(size_t size,
 						t_shift_info new_shift_info,
 						t_shift_info *shift_info)
@@ -94,21 +21,83 @@ static void			set_direction(size_t size,
 	}
 }
 
+t_stack_elem *find_a_elem(t_stack *a_stack, int	index)
+{
+	t_stack_elem	*current;
+
+	current = a_stack->markup_head;
+	//printf("markup head = %d\n", current->index);
+	if (index < current->index)
+	{
+		while (index < current->previous->index
+			&& current->index > current->previous->index)
+			current = current->previous;
+	}
+	else
+	{
+		while (index > current->index
+			&& current->index < current->next->index)
+			current = current->next;
+		if (index > current->index && current->index > current->next->index)
+			current = current->next;
+	//printf("last index = %d\n", current->index);
+
+	}
+	return (current);
+}
+
+static void			calculate_directions(t_stack *stack, int index, t_sizes *xsize)
+{
+	t_stack_elem	*current;
+
+
+	if (stack && stack->head)
+	{
+		current = stack->head;
+		while (current->index != index)
+		{
+			(xsize->rx)++;
+			current = current->next;
+		}
+		current = stack->head;
+		while (current->index != index)
+		{
+			(xsize->rrx)++;
+			current = current->previous;
+		}
+	}
+}
+
+static void		decide_directions(t_sizes *a, t_sizes *b)
+{
+	if (a->rrx < a->rx)
+		a->direction = RR;
+	else
+		a->direction = R;
+	if (b->rrx < b->rx)
+		b->direction = RR;
+	else
+		b->direction = R;
+	if
+
+}
+
 void optimal_direction(t_stack *a_stack, t_stack *b_stack,
     				  t_stack_elem *b_elem, t_shift_info *shift_info)
 {
-	t_shift_info	current_shift_info;
+	t_shift_info	new_shift_info;
+	size_t			size;
+	t_sizes			new_a;
+	t_sizes			new_b;
 
+	new_shift_info.a_elem = find_a_elem(a_stack, b_elem->index);
+	new_shift_info.b_elem = b_elem;
+	calculate_directions(a_stack, new_shift_info.a_elem->index, &new_a);
+	calculate_directions(b_stack, b_elem->index, &new_b);
+	decide_directions(&new_a, &new_b);
+	size = new_a.size + new_b.size;
+	set_direction(size, new_shift_info, shift_info);
 
-	current_shift_info.a_elem = find_a_elem(a_stack, b_elem->index);
-	current_shift_info.b_elem = b_elem;
-	estimate_direction(a_stack, current_shift_info.a_elem->index,
-						shift_info->lowest_r_a);
-	estimate_direction(b_stack, b_elem->index, shift_info->lowest_r_b);
-	printf("rb size for %d = %ld\n", b_elem->number, shift_info->lowest_r_b->rx);
-	printf("rrb size for %d = %ld\n", b_elem->number, shift_info->lowest_r_b->rrx);
-	printf("a_elem for %d = %d\n", b_elem->number, current_shift_info.a_elem->number);
-	printf("---------------------------------------------------------------\n");
 }
 
 void opt_direction(t_stack *a_stack, t_stack *b_stack, t_shift_info *shift_info)
