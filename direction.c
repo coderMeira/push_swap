@@ -67,19 +67,48 @@ static void			calculate_directions(t_stack *stack, int index, t_sizes *xsize)
 		}
 	}
 }
-
-static void		decide_directions(t_sizes *a, t_sizes *b)
+static size_t	find_min(t_sizes *x)
 {
-	if (a->rrx < a->rx)
-		a->direction = RR;
+	if (x->rrx > x->rx)
+	{
+		x->direction = R;
+		return (x->rx);
+	}
 	else
-		a->direction = R;
-	if (b->rrx < b->rx)
-		b->direction = RR;
-	else
-		b->direction = R;
-	if
+	{
+		x->direction = RR;
+		return (x->rrx);
+	}
+}
 
+static size_t	decide_directions(t_sizes *a, t_sizes *b, t_shift_info *shift)
+{
+	size_t	min_a;
+	size_t	min_b;
+
+	min_a = find_min(a);
+	min_b = find_min(b);
+	if (a->rx == b->rx || a->rrx == b->rrx)
+	{
+		if ((((a->rx + b->rx) / 2) <= min_a) && (((a->rx + b->rx) / 2) <= min_b))
+		{
+			shift->a_direction = R;
+			shift->b_direction = R;
+			return (a->rx + b->rx / 2);
+		}
+		else if ((((a->rrx + b->rrx) / 2) <= min_a) && (((a->rrx + b->rrx) / 2) <= min_b))
+		{
+			shift->a_direction = RR;
+			shift->b_direction = RR;
+			return (a->rrx + b->rrx / 2);
+		}
+	}
+	else
+	{
+		shift->a_direction = a->direction;
+		shift->b_direction = b->direction;
+		return (min_a + min_b);
+	}
 }
 
 void optimal_direction(t_stack *a_stack, t_stack *b_stack,
@@ -94,8 +123,9 @@ void optimal_direction(t_stack *a_stack, t_stack *b_stack,
 	new_shift_info.b_elem = b_elem;
 	calculate_directions(a_stack, new_shift_info.a_elem->index, &new_a);
 	calculate_directions(b_stack, b_elem->index, &new_b);
-	decide_directions(&new_a, &new_b);
-	size = new_a.size + new_b.size;
+	size = decide_directions(&new_a, &new_b, &new_shift_info);
+	printf("a direction for %d = %d\n",new_shift_info.a_elem->number, new_shift_info.a_direction);
+	printf("b direction for %d = %d\n",b_elem->number, new_shift_info.b_direction);
 	set_direction(size, new_shift_info, shift_info);
 
 }
@@ -117,6 +147,10 @@ void opt_direction(t_stack *a_stack, t_stack *b_stack, t_shift_info *shift_info)
 			optimal_direction(a_stack, b_stack, current, shift_info);
 			i++;
 			current = current->next;
+			printf("current best elements = A:%d B:%d\n", shift_info->a_elem->number, shift_info->b_elem->number);
+			printf("current best a direction = %d\n", shift_info->a_direction);
+			printf("current best b direction = %d\n", shift_info->b_direction);
+			printf("-------------------------------------------------------\n");
 		}
 	}
 }

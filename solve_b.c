@@ -10,7 +10,6 @@ static	t_sizes	*init_r_struct(void)
 
 	new->rx = 0;
 	new->rrx = 0;
-	new->size = 0;
 	new->direction = R;
 
 	return (new);
