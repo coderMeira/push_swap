@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/29 03:19:35 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/29 20:08:09 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct 	s_sizes
 {
 	size_t		rx;
 	size_t		rrx;
-	t_bool		r_is_set;
+	size_t		size;
+	t_direction	direction;
 }				 t_sizes;
 
 typedef struct 				s_stack_elem
