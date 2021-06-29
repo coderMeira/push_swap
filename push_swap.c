@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:31:55 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/23 19:14:05 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/29 01:51:40 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int main(int ac, char** av)
 	t_stack			*stack_a;
 	t_command_list	*commands;
 	t_stack			*b_stack;
+
 	b_stack = init_stack();
 	commands = init_command_list();
 
