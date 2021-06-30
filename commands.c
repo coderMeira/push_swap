@@ -44,3 +44,15 @@ void			add_command(t_command_list *list,
 		}
 	}
 }
+
+void			print_commands(t_command_list *list)
+{
+	t_command *current;
+
+	current = list->head;
+	while (current)
+	{
+		ft_putendl(current->name);
+		current = current->next;
+	}
+}
