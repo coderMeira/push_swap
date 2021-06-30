@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:31:55 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/29 19:06:23 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/30 20:13:06 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,15 @@ int main(int ac, char** av)
 {
 	t_stack			*stack_a;
 	t_command_list	*commands;
-	t_stack			*b_stack;
-
-	b_stack = init_stack();
-	commands = init_command_list();
 
 	if (ac >= 2)
 	{
 		index_stack(stack_a = parse(ac, av));
 		markup(stack_a);
-		//commands = solve(stack_a);
-		solve(stack_a);
+		commands = solve(stack_a);
+		free_stack(stack_a);
+		print_commands(commands);
+		free_command_list(commands);
 	}
 	else
 		terminate();

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/30 00:05:49 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/06/30 20:26:43 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,10 @@ void			solve_b(t_stack	*a_stack, t_stack *b_stack,
 				t_command_list	*command_list);
 void 			opt_direction(t_stack *a_stack, t_stack *b_stack,
 				t_shift_info *shift_info);
+void			free_stack(t_stack *stack);
+void			free_command_list(t_command_list *list);
+void			free_stack(t_stack *stack);
+void			print_commands(t_command_list *list);
+
 
 #endif
