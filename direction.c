@@ -82,6 +82,9 @@ static size_t	decide_directions(t_sizes *a, t_sizes *b, t_shift_info *shift)
 	min_a = find_min(a);
 	min_b = find_min(b);
 	lowest = min_a + min_b;
+	//printf("min a = %zu\n", min_a);
+	//printf("min b = %zu\n", min_b);
+	//printf("lowest = %zu\n", lowest);
 	shift->a_direction = a->direction;
 	shift->b_direction = b->direction;
 	if (a->rx == b->rx && (((a->rx + b->rx) / 2) <= lowest))
@@ -96,7 +99,33 @@ static size_t	decide_directions(t_sizes *a, t_sizes *b, t_shift_info *shift)
 		shift->b_direction = RR;
 		lowest = ((a->rrx + b->rrx) / 2);
 	}
+	//printf("second lowest = %zu\n", lowest);
 	return (lowest);
+}
+
+void	print_rs(t_sizes	*a, t_sizes	*b)
+{
+	printf("A\n");
+	printf("ra = %zu\n", a->rx);
+	printf("rra = %zu\n", a->rrx);
+	printf("B\n");
+	printf("rb = %zu\n", b->rx);
+	printf("rrb = %zu\n", b->rrx);
+}
+
+static	t_sizes	*init_r_struct(void)
+{
+	t_sizes		*new;
+
+	new = (t_sizes *)malloc(sizeof(t_sizes));
+	if (!new)
+		terminate();
+
+	new->rx = 0;
+	new->rrx = 0;
+	new->direction = R;
+
+	return (new);
 }
 
 void optimal_direction(t_stack *a_stack, t_stack *b_stack,
@@ -104,16 +133,22 @@ void optimal_direction(t_stack *a_stack, t_stack *b_stack,
 {
 	t_shift_info	new_shift_info;
 	size_t			size;
-	t_sizes			new_a;
-	t_sizes			new_b;
+	t_sizes			*new_a;
+	t_sizes			*new_b;
 
+	new_a = init_r_struct();
+	new_b = init_r_struct();
 	new_shift_info.a_elem = find_a_elem(a_stack, b_elem->index);
 	new_shift_info.b_elem = b_elem;
-	calculate_directions(a_stack, new_shift_info.a_elem->index, &new_a);
-	calculate_directions(b_stack, b_elem->index, &new_b);
-	size = decide_directions(&new_a, &new_b, &new_shift_info);
+
+	calculate_directions(a_stack, new_shift_info.a_elem->index, new_a);
+	calculate_directions(b_stack, b_elem->index, new_b);
+
+	size = decide_directions(new_a, new_b, &new_shift_info);
 	set_direction(size, new_shift_info, shift_info);
 
+	free(new_a);
+	free(new_b);
 }
 
 void opt_direction(t_stack *a_stack, t_stack *b_stack, t_shift_info *shift_info)
