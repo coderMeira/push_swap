@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/30 20:26:43 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/02 00:29:03 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "libft/libft.h"
+
+
 
 typedef enum
 {
