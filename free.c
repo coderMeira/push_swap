@@ -3,8 +3,8 @@
 
 void	free_command_list(t_command_list *list)
 {
-	t_command *current;
-	t_command *delete;
+	t_command	*current;
+	t_command	*delete;
 
 	current = list->head;
 	while (current)

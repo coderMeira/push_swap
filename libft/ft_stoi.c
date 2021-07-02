@@ -6,11 +6,9 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 17:08:06 by fmeira            #+#    #+#             */
-/*   Updated: 2021/05/28 17:02:04 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/02 02:13:07 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "push_swap.h"
 
 int	ft_stoi(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 19:37:41 by fmeira            #+#    #+#             */
-/*   Updated: 2021/06/29 18:17:01 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/02 02:07:13 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,6 @@ t_bool  not_int(char* s)
             return (true);
     }
     return (false);
-}
-
-t_stack			*init_stack(void)
-{
-	t_stack *stack;
-
-	stack = (t_stack *)malloc(sizeof(t_stack));
-    if (!stack)
-        terminate();
-	stack->head = NULL;
-	stack->size = 0;
-	stack->pairs = 0;
-	stack->markup_head = NULL;
-	return (stack);
 }
 
 t_stack *parse(int ac, char** av)
