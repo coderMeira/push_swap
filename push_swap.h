@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:11:29 by fmeira            #+#    #+#             */
-/*   Updated: 2021/07/02 00:29:03 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/02 02:12:36 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void			free_stack(t_stack *stack);
 void			free_command_list(t_command_list *list);
 void			free_stack(t_stack *stack);
 void			print_commands(t_command_list *list);
-
+t_sizes			*init_r_struct(void);
+t_shift_info	*init_shift_info(void);
 
 #endif

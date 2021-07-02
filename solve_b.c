@@ -1,22 +1,5 @@
 #include "push_swap.h"
 
-static t_shift_info	*init_shift_info(void)
-{
-	t_shift_info	*shift_info;
-
-
-	shift_info = (t_shift_info *)malloc(sizeof(t_shift_info));
-	if (!shift_info)
-		terminate();
-	shift_info->a_elem = NULL;
-	shift_info->b_elem = NULL;
-	shift_info->a_direction = R;
-	shift_info->b_direction = R;
-	shift_info->size = 0;
-	shift_info->is_set = false;
-	return (shift_info);
-}
-
 static void			move_b(t_stack *a_stack,
 						t_stack *b_stack,
 						t_shift_info *shift_info,
