@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmeira <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:06:12 by fmeira            #+#    #+#             */
-/*   Updated: 2021/03/03 18:59:35 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/03 20:09:48 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	char nl;
-	char *n;
+	char	nl;
+	char	*n;
 
 	nl = '\n';
 	n = &nl;

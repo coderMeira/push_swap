@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmeira <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 18:37:16 by fmeira            #+#    #+#             */
-/*   Updated: 2021/02/25 14:20:05 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/03 19:55:24 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalnum(int c)
+int	ft_isalnum(int c)
 {
 	if (c > 64 && c < 91)
 		return (1);

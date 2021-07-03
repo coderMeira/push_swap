@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmeira <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:40:20 by fmeira            #+#    #+#             */
-/*   Updated: 2021/03/03 20:15:42 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/03 20:11:02 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	ft_be_free_like_a_bird(char **to_free)
 	}
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**to_return;
 	int		aux;
@@ -87,12 +87,12 @@ char		**ft_split(char const *s, char c)
 	aux = 0;
 	if (!s)
 		return (NULL);
-	to_return = (char**)ft_calloc(ft_isset((char*)s, c), sizeof(char*));
+	to_return = (char **)ft_calloc(ft_isset((char *)s, c), sizeof(char *));
 	if (!to_return)
 		return (NULL);
-	if (ft_isset((char*)s, c) == 1)
+	if (ft_isset((char *)s, c) == 1)
 		return (to_return);
-	if (!(ft_set_mem(to_return, ft_isset((char*)s, c), (char*)s, c)))
+	if (!(ft_set_mem(to_return, ft_isset((char *)s, c), (char *)s, c)))
 	{
 		ft_be_free_like_a_bird(to_return);
 		free(to_return);

@@ -58,20 +58,6 @@ static void	set_direction(size_t size,
 	}
 }
 
-static size_t	find_min(t_sizes *x)
-{
-	if (x->rx < x->rrx)
-	{
-		x->direction = R;
-		return (x->rx);
-	}
-	else
-	{
-		x->direction = RR;
-		return (x->rrx);
-	}
-}
-
 static size_t	decide_directions(t_sizes *a, t_sizes *b, t_shift_info *shift)
 {
 	size_t	min_a;
@@ -116,23 +102,4 @@ void	optimal_direction(t_stack *a_stack, t_stack *b_stack,
 	set_direction(size, new_shift_info, shift_info);
 	free(new_a);
 	free(new_b);
-}
-
-void	opt_direction(t_stack *a_stack, t_stack *b_stack,
-						t_shift_info *shift_info)
-{
-	t_stack_elem	*current;
-	size_t			i;
-
-	if (b_stack)
-	{
-		current = b_stack->head;
-		i = 0;
-		while (i < b_stack->size)
-		{
-			optimal_direction(a_stack, b_stack, current, shift_info);
-			i++;
-			current = current->next;
-		}
-	}
 }
