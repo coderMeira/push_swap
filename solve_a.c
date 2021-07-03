@@ -1,4 +1,3 @@
-
 #include "push_swap.h"
 
 static t_bool	needs_pb(t_stack *a_stack)
@@ -37,7 +36,7 @@ static t_bool	needs_sa(t_stack *a_stack)
 	return (false);
 }
 
-void			solve_a(t_stack *a_stack, t_stack *b_stack,
+void	solve_a(t_stack *a_stack, t_stack *b_stack,
 				 t_command_list *command_list)
 {
 	while (needs_pb(a_stack))

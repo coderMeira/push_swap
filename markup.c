@@ -1,4 +1,3 @@
-
 #include "push_swap.h"
 
 size_t	markup_stack(t_stack *stack, t_stack_elem *markup_head)
@@ -29,7 +28,7 @@ size_t	markup_stack(t_stack *stack, t_stack_elem *markup_head)
 	return (pairs);
 }
 
-void			markup(t_stack	*stack)
+void	markup(t_stack	*stack)
 {
 	int				i;
 	t_stack_elem	*current;
@@ -47,8 +46,8 @@ void			markup(t_stack	*stack)
 				stack->markup_head = current;
 				stack->pairs = pairs;
 			}
-			else if (pairs == stack->pairs && (!stack->markup_head ||
-				current->number < stack->markup_head->number))
+			else if (pairs == stack->pairs && (!stack->markup_head
+					|| current->number < stack->markup_head->number))
 				stack->markup_head = current;
 			i++;
 			current = current->next;

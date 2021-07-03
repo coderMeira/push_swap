@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmeira <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:33:13 by fmeira            #+#    #+#             */
-/*   Updated: 2021/03/03 18:34:13 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/03 20:06:04 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*head;
 
-	head = (t_list	*)malloc(sizeof(t_list));
+	head = (t_list *)malloc(sizeof(t_list));
 	if (!head)
 		return (NULL);
 	head->content = content;

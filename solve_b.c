@@ -1,32 +1,30 @@
 #include "push_swap.h"
 
-static void			move_b(t_stack *a_stack,
-						t_stack *b_stack,
-						t_shift_info *shift_info,
-						t_command_list *command_list)
+static void	move_b(t_stack *a_stack,
+					t_stack *b_stack,
+					t_shift_info *s,
+					t_command_list *command_list)
 {
-	while (shift_info->a_elem != a_stack->head
-		|| shift_info->b_elem != b_stack->head)
+	while (s->a_elem != a_stack->head || s->b_elem != b_stack->head)
 	{
-		if (shift_info->a_direction == shift_info->b_direction
-			&& shift_info->a_elem != a_stack->head
-			&& shift_info->b_elem != b_stack->head)
+		if (s->a_direction == s->b_direction && s->a_elem != a_stack->head
+			&& s->b_elem != b_stack->head)
 		{
-			if (shift_info->a_direction == R)
+			if (s->a_direction == R)
 				rr(a_stack, b_stack, "rr", command_list);
 			else
 				rrr(a_stack, b_stack, "rrr", command_list);
 		}
-		else if (shift_info->a_elem != a_stack->head)
+		else if (s->a_elem != a_stack->head)
 		{
-			if (shift_info->a_direction == R)
+			if (s->a_direction == R)
 				rx(a_stack, "ra", command_list);
 			else
 				rrx(a_stack, "rra", command_list);
 		}
-		else if (shift_info->b_elem != b_stack->head)
+		else if (s->b_elem != b_stack->head)
 		{
-			if (shift_info->b_direction == R)
+			if (s->b_direction == R)
 				rx(b_stack, "rb", command_list);
 			else
 				rrx(b_stack, "rrb", command_list);
@@ -48,4 +46,37 @@ void	solve_b(t_stack	*a_stack, t_stack *b_stack,
 		px(a_stack, b_stack, "pa", command_list);
 	}
 	free(shift_info);
+}
+
+size_t	find_min(t_sizes *x)
+{
+	if (x->rx < x->rrx)
+	{
+		x->direction = R;
+		return (x->rx);
+	}
+	else
+	{
+		x->direction = RR;
+		return (x->rrx);
+	}
+}
+
+void	opt_direction(t_stack *a_stack, t_stack *b_stack,
+						t_shift_info *shift_info)
+{
+	t_stack_elem	*current;
+	size_t			i;
+
+	if (b_stack)
+	{
+		current = b_stack->head;
+		i = 0;
+		while (i < b_stack->size)
+		{
+			optimal_direction(a_stack, b_stack, current, shift_info);
+			i++;
+			current = current->next;
+		}
+	}
 }

@@ -1,13 +1,12 @@
-
 #include "push_swap.h"
 
-t_stack			*init_stack(void)
+t_stack	*init_stack(void)
 {
-	t_stack *stack;
+	t_stack	*stack;
 
 	stack = (t_stack *)malloc(sizeof(t_stack));
-    if (!stack)
-        terminate();
+	if (!stack)
+		terminate();
 	stack->head = NULL;
 	stack->size = 0;
 	stack->pairs = 0;
@@ -18,7 +17,6 @@ t_stack			*init_stack(void)
 t_shift_info	*init_shift_info(void)
 {
 	t_shift_info	*shift_info;
-
 
 	shift_info = (t_shift_info *)malloc(sizeof(t_shift_info));
 	if (!shift_info)

@@ -1,16 +1,15 @@
-
 #include "push_swap.h"
 
 void	px(t_stack	*to, t_stack *from, const char *name, t_command_list *list)
 {
 	push(to, pop(from));
 	 if (name && !list)
-	 	ft_putendl(name);
+		ft_putendl(name);
 	if (name && list)
 		add_command(list, create_command(name));
 }
 
-void		push(t_stack *stack, t_stack_elem *popped)
+void	push(t_stack *stack, t_stack_elem *popped)
 {
 	t_stack_elem	*tail;
 
@@ -35,9 +34,9 @@ void		push(t_stack *stack, t_stack_elem *popped)
 	}
 }
 
-t_stack_elem *pop(t_stack *stack)
+t_stack_elem	*pop(t_stack *stack)
 {
-	t_stack_elem *elem;
+	t_stack_elem	*elem;
 
 	elem = NULL;
 	if (stack && stack->size)
