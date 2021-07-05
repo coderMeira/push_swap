@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:31:55 by fmeira            #+#    #+#             */
-/*   Updated: 2021/07/02 01:56:32 by fmeira           ###   ########.fr       */
+/*   Updated: 2021/07/05 15:46:28 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	terminate(void)
 {
-	ft_putendl_fd("Error", 2);
+	ft_putendl_fd("Error\n", 2);
 	exit(1);
 }
 

@@ -25,3 +25,13 @@ void	sx(t_stack *stack, char *arg, t_command_list *list)
 	if (arg && list)
 		add_command(list, create_command(arg));
 }
+
+void	ss(t_stack *a, t_stack *b, const char *name, t_command_list *list)
+{
+	sx(a, NULL, NULL);
+	sx(b, NULL, NULL);
+	if (name && !list)
+		ft_putendl(name);
+	if (name && list)
+		add_command(list, create_command(name));
+}

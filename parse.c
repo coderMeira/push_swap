@@ -57,11 +57,15 @@ t_bool	has_duplicates(t_stack *stack)
 
 t_bool	not_int(char *s)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	*tmp;
 
 	i = 0;
 	len = ft_strlen(s);
+	tmp = s;
+	if (ft_stoi(tmp) > 2147483647)
+		return (false);
 	if (s[i] == '-' && ft_isdigit(s[1]))
 		i++;
 	while (i < len)
