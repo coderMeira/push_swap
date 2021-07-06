@@ -1,86 +1,291 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/19 18:37:53 by fmeira            #+#    #+#              #
-#    Updated: 2021/07/05 21:35:55 by fmeira           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+################################################################################
+# Makefile
+################################################################################
 
-CFLAGS		= -Wall -Wextra -Werror
-RM			= rm -f
+# Makefile by fletcher97
+# Version: 2.1
 
-NAME_PH		= push_swap.a
-NAME_CH		= checker.a
+# This makefile can be copied to a directory and it will generate the file
+# structure and initialize a git repository with the .init rule. Any variables
+# and rules for the specifique project can be added in the appropriate section.
 
-SRCS_PH		= 	markup.c\
-				parse.c\
-				checker.c\
-				push.c\
-				commands.c\
-				push_swap.c\
-				direction.c\
-				free.c\
-				ft_atoi.o\
-				rotate.c\
-				get_next_line.c\
-				solve.c\
-        		solve_a.c\
-				solve_b.c\
-				inits.c\
-				stack.c\
-            	swaps.c\
-				libft\ft_isdigit.c\
-				libft\ft_putendl.c\
-				libft\ft_putendl_fd.c\
-				libft\ft_putstr_fd.c\
-				libft\ft_strdup.c\
-				libft\ft_strlen.c\
-				libft\ft_stoi.c\
-				libft\ft_strchr.c\
-				libft\ft_strjoin.c\
-				libft\ft_strncmp.c\
-				libft\ft_substr.c
+################################################################################
+# Project Variables
+################################################################################
 
-SRCS_CH		=	get_next_line.c\
-				ft_strchr.c\
-				ft_substr.c\
-				ft_strdup.c\
-				ft_strjoin.c\
-				ft_strlen.c\
+# Name of a single binary. Add as many variables as required by the project
+NAME1 := push_swap
+NAME2 := checker
 
-INCLUDE_PH	= ft_push_swap.h
-INCLUDE_CH	= get_next_line.h
+# The names of all the binaries. Add aditional variables created above separated
+# by space.
+NAMES := ${NAME1} ${NAME2}
 
-OBJS_PH		= $(SRCS_PH:.c=.o)
-OBJS_CH		= $(SRCS_CH:.c=.o)
+################################################################################
+# Configs
+################################################################################
 
-all:		$(NAME_PH) $(NAME_CH)
-$(NAME_PH):	$(OBJS_PH) $(INCLUDE_PH)
-			ar -rcs $(CH) $(OBJS_PH)
-$(NAME_CH):	$(OBJS_CH) $(INCLUDE_CH)
-			ar -rcs $(CH) $(OBJS_CH)
+# Verbose levels
+# 0: Make will be totaly silenced
+# 1: Make will print echos and printf
+# 2: Make will not be silenced but target commands will not be printed
+# 3: Make will print each command
+# 4: Make will print all debug info
+#
+# If no value is specified or an incorrect value is given make will print each
+# command like if VERBOSE was set to 3.
+VERBOSE := 1
 
-push_swap: 	$(NAME_PH)
-$(NAME_PH):	$(OBJS_PH) $(INCLUDE_PH)
-			ar -rcs $(NAME_PH) $(OBJS_PH)
+################################################################################
+# Compiler & Flags
+################################################################################
 
-checker: 	$(NAME_CH)
-$(NAME_CH):	$(OBJS_CH) $(INCLUDE_CH)
-			ar -rcs $(NAME_CH) $(OBJS_CH)
+CC := gcc
 
-.c.o:
-			$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $(<:.c=.o)
+CFLAGS := -Wall -Wextra -Werror -Wvla
+DFLAGS := -g
+SANITIZE := -fsanitize=address
+
+################################################################################
+# Root Folders
+################################################################################
+
+BIN_ROOT := bin/
+DEP_ROOT := dep/
+INC_ROOT := inc/
+LIB_ROOT := lib/
+OBJ_ROOT := obj/
+SRC_ROOT := src/
+
+################################################################################
+# Libraries
+################################################################################
+
+# LIBS := ./lib/libft/
+
+# Libft
+LIBFT_ROOT := ${LIB_ROOT}libft/
+LIBFT_INC := ${LIBFT_ROOT}inc/
+LIBFT := ${LIBFT_ROOT}bin/libft.a
+LIBS := -L ${LIBFT_ROOT}bin -lft
+
+################################################################################
+# Content Folders
+################################################################################
+
+# Lists of ':' separated folders inside SRC_ROOT containing source files. Each
+# folder needs to end with a '/'. The path to the folders is relative to
+# SRC_ROOT
+# If SRC_ROOT contains files './' needs to be in the list. Each list is
+# separated by a space or by going to a new line and adding onto the var.
+# Exemple:
+# DIRS := folder1/:folder2/
+# DIRS += folder1/:folder3/:folder4/
+DIRS := checker/:common/:p_swap/:../lib/libft/src/
+
+SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
+SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
+
+SRC_DIRS = $(call rmdup,$(subst :,${SPACE},${SRC_DIRS_LIST}))
+OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
+DEP_DIRS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRC_DIRS})
+
+# List of folders with header files.Each folder needs to end with a '/'. The
+# path to the folders is relative to the root of the makefile. Library includes
+# can be specified here.
+INC_DIRS := ${INC_ROOT}\
+            lib/libft/inc
+
+################################################################################
+# Files
+################################################################################
+
+SRCS_LIST = $(foreach dl,${SRC_DIRS_LIST},$(subst ${SPACE},:,$(strip $(foreach\
+	dir,$(subst :,${SPACE},${dl}),$(wildcard ${dir}*.c)))))
+OBJS_LIST = $(subst ${SRC_ROOT},${OBJ_ROOT},$(subst .c,.o,${SRCS_LIST}))
+
+SRCS = $(foreach dir,${SRC_DIRS},$(wildcard ${dir}*.c))
+OBJS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRCS:.c=.o})
+DEPS = $(subst ${SRC_ROOT},${DEP_ROOT},${SRCS:.c=.d})
+
+INCS := ${addprefix -I,${INC_DIRS}}
+
+BINS := ${addprefix ${BIN_ROOT},${NAMES}}
+
+################################################################################
+# VPATHS
+################################################################################
+
+vpath %.o $(OBJ_ROOT)
+vpath %.h $(INC_ROOT)
+vpath %.c $(SRC_DIRS)
+vpath %.d $(DEP_DIRS)
+
+################################################################################
+# Conditions
+################################################################################
+
+ifeq ($(shell uname), Linux)
+	SED := sed -i.tmp --expression
+else ifeq ($(shell uname), Darwin)
+	SED := sed -i.tmp
+endif
+
+ifeq ($(VERBOSE),0)
+	MAKEFLAGS += --silent
+	BLOCK := &>/dev/null
+else ifeq ($(VERBOSE),1)
+	MAKEFLAGS += --silent
+else ifeq ($(VERBOSE),2)
+	AT := @
+else ifeq ($(VERBOSE),4)
+	MAKEFLAGS += --debug=v
+endif
+
+################################################################################
+# Project Target
+################################################################################
+
+all: ${BINS}
+
+.SECONDEXPANSION:
+
+# Exemple target
+${BIN_ROOT}${NAME1}: $$(call get_files,$${@F},$${OBJS_LIST})
+	${AT}printf "\033[33m[CREATING ${@F}]\033[0m\n" ${BLOCK}
+	${AT}mkdir -p ${@D} ${BLOCK}
+	${AT}${CC} ${CFLAGS} ${INCS} $(call get_files,${@F},${OBJS_LIST}) ${LIBS} -o $@ ${BLOCK}
+
+################################################################################
+# Setup Target
+################################################################################
+
+.init:
+	${AT}printf "\033[33m[CREATING FOLDER STRUCTURE]\033[0m\n" ${BLOCK}
+	${AT}mkdir -p ${BIN_ROOT} ${BLOCK}
+	${AT}mkdir -p ${DEP_ROOT} ${BLOCK}
+	${AT}mkdir -p ${INC_ROOT} ${BLOCK}
+	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
+	${AT}mkdir -p ${SRC_ROOT} ${BLOCK}
+	${AT}printf "\033[33m[INITIALIZING GIT REPOSITORY]\033[0m\n" ${BLOCK}
+	${AT}git init ${BLOCK}
+	${AT}echo "*.o\n*.d\n.vscode\na.out\n.DS_Store" > .gitignore ${BLOCK}
+	${AT}date > $@ ${BLOCK}
+	${AT}printf "\033[33m[CREATING FIRST COMMIT]\033[0m\n" ${BLOCK}
+	${AT}git add .gitignore ${BLOCK}
+	${AT}git add $@ ${BLOCK}
+	${AT}git add Makefile ${BLOCK}
+	${AT}git commit -m "init" ${BLOCK}
+
+################################################################################
+# Clean Targets
+################################################################################
 
 clean:
-			$(RM) $(OBJS)
+	${AT}printf "\033[38;5;1m[REMOVING OBJECTS]\033[0m\n" ${BLOCK}
+	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
+	${AT}find ${OBJ_ROOT} -type f -delete ${BLOCK}
 
-fclean:		clean
-			$(RM) $(NAME_PH) $(NAME_CH)
+fclean: clean
+	${AT}printf "\033[38;5;1m[REMOVING BINARIES]\033[0m\n" ${BLOCK}
+	${AT}mkdir -p ${BIN_ROOT} ${BLOCK}
+	${AT}find ${BIN_ROOT} -type f -delete ${BLOCK}
 
-re:			fclean all
+clean_dep:
+	${AT}printf "\033[38;5;1m[REMOVING DEPENDENCIES]\033[0m\n" ${BLOCK}
+	${AT}mkdir -p ${DEP_ROOT} ${BLOCK}
+	${AT}find ${DEP_ROOT} -type f -delete ${BLOCK}
 
-.PHONY:		all clean fclean re
+clean_all: clean_dep fclean
+
+re: fclean all
+
+################################################################################
+# Debug Targets
+################################################################################
+
+debug_asan: CFLAGS += ${DFLAGS} ${SANITIZE}
+debug_asan: all
+
+debug: CFLAGS += ${DFLAGS}
+debug: all
+
+debug_re: fclean debug
+
+################################################################################
+# .PHONY
+################################################################################
+
+.PHONY : clean fclean clean_dep clean_all re all
+
+################################################################################
+# Constantes
+################################################################################
+
+NULL =
+SPACE = ${NULL} #
+
+################################################################################
+# Functions
+################################################################################
+
+# Get the index of a given word in a list
+_index = $(if $(findstring $1,$2), $(call _index,$1,\
+	$(wordlist 2,$(words $2),$2),x $3),$3)
+index = $(words $(call _index,$1,$2))
+
+# Get value at the same index
+lookup = $(word $(call index,$1,$2),$3)
+
+# Remove duplicates
+rmdup = $(if $1,$(firstword $1) $(call rmdup,$(filter-out $(firstword $1),$1)))
+
+# Get files for a specific binary
+get_files = $(subst :,${SPACE},$(call lookup,$1,${NAMES},$2))
+
+################################################################################
+# Target Templates
+################################################################################
+
+define make_bin
+${1} : ${2}
+endef
+
+define make_obj
+${1} : ${2} ${3}
+	$${AT}printf "\033[38;5;14m[OBJ]: \033[38;5;47m$$@\033[0m\n" $${BLOCK}
+	$${AT}mkdir -p $${@D} $${BLOCK}
+	$${AT}$${CC} $${CFLAGS} $${INCS} -c $$< -o $$@ $${BLOCK}
+endef
+
+define make_dep
+${1} : ${2}
+	$${AT}printf "\033[38;5;13m[DEP]: \033[38;5;47m$$@\033[0m\n" $${BLOCK}
+	$${AT}mkdir -p $${@D} $${BLOCK}
+	$${AT}$${CC} -MM $$< $${INCS} -MF $$@ $${BLOCK}
+	$${AT}$${SED} 's|:| $$@ :|' $$@ $${BLOCK}
+	$${AT}$${SED} '1 s|^|$${@D}/|' $$@ $${BLOCK}
+	$${AT}$${SED} '1 s|^$${DEP_ROOT}|$${OBJ_ROOT}|' $$@ $${BLOCK}
+	$${AT}rm -f $$@.tmp $${BLOCK}
+endef
+
+################################################################################
+# Target Generator
+################################################################################
+
+$(foreach bin,${BINS},$(eval\
+$(call make_bin,$(notdir ${bin}),${bin})))
+
+$(foreach src,${SRCS},$(eval\
+$(call make_dep,$(subst ${SRC_ROOT},${DEP_ROOT},${src:.c=.d}),${src})))
+
+$(foreach src,${SRCS},$(eval\
+$(call make_obj,$(subst ${SRC_ROOT},${OBJ_ROOT},${src:.c=.o}),\
+${src},\
+$(subst ${SRC_ROOT},${DEP_ROOT},${src:.c=.d}))))
+
+################################################################################
+# Includes
+################################################################################
+
+-include ${DEPS}
