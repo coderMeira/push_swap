@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 size_t	markup_stack(t_stack *stack, t_stack_elem *markup_head)
 {

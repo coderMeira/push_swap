@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 t_stack_elem	*find_a_elem(t_stack *a_stack, int	index)
 {
